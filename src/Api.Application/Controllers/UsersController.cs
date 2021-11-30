@@ -83,7 +83,7 @@ namespace Api.Application.Controllers
         [HttpPut]
         public async Task<ActionResult> Put([FromBody] UserDtoUpdate user){
             if(!ModelState.IsValid){
-                return BadRequest();
+                return BadRequest(ModelState);
             }
 
             try
@@ -105,7 +105,7 @@ namespace Api.Application.Controllers
         [HttpDelete ("{id}")]
         public async Task<ActionResult> Delete(Guid id){
             if(!ModelState.IsValid){
-                return BadRequest();
+                return BadRequest(ModelState);
             }
 
             try{
