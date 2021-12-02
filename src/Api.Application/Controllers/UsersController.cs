@@ -60,7 +60,7 @@ namespace Api.Application.Controllers
             }
         }
 
-        [Authorize("Bearer")]
+        [AllowAnonymous]
         [HttpPost]
         public async Task<ActionResult> Post([FromBody] UserDtoCreate user){
             if(!ModelState.IsValid){
@@ -113,7 +113,7 @@ namespace Api.Application.Controllers
             }
 
             try{
-            return Ok(await _service.Delete(id));
+              return Ok(await _service.Delete(id));
             }catch (ArgumentException e){
                 return StatusCode((int) HttpStatusCode.InternalServerError, e.Message);
             }
