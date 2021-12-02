@@ -2,6 +2,7 @@ using System;
 using Api.Data.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
 using Xunit;
 
 namespace Api.Data.Test
@@ -21,8 +22,11 @@ public class DbTeste : IDisposable
   {
     var serviceCollection = new ServiceCollection();
     serviceCollection.AddDbContext<MyContext>(o =>
-      o.UseMySql($"Persist Security Info=True;Server=127.0.0.1;Database={databaseName};User=root;Password=dracula1!"),
-      ServiceLifetime.Transient
+      o.UseMySql($"Persist Security Info=True;Server=127.0.0.1;Database={databaseName};User=root;Password=dracula1!",
+        new MySqlServerVersion(new Version(8,0,21)),
+                mySqlOptions => mySqlOptions
+                  .CharSetBehavior(CharSetBehavior.NeverAppend)),
+        ServiceLifetime.Transient
     );
 
     ServiceProvider = serviceCollection.BuildServiceProvider();
