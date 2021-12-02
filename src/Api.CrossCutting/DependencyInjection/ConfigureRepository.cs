@@ -6,6 +6,7 @@ using Api.Domain.Interfaces;
 using Api.Domain.Repository;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
 
 namespace Api.CrossCutting.DependencyInjection
 {
@@ -26,7 +27,11 @@ namespace Api.CrossCutting.DependencyInjection
         );
       }else {
         serviceCollection.AddDbContext<MyContext>(
-          options => options.UseMySql(Environment.GetEnvironmentVariable("DB_CONNECTION"))
+          options => options.UseMySql(Environment.GetEnvironmentVariable("DB_CONNECTION"),
+            new MySqlServerVersion(new Version(8,0,21)),
+              mySqlOptions => mySqlOptions
+                .CharSetBehavior(CharSetBehavior.NeverAppend)
+          )
         );
       }
     }
